@@ -1,0 +1,6 @@
+__pycache__
+*.pyc
+datasets/
+output/
+.vscode/
+test_time_consumption
