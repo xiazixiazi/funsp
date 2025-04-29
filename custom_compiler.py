@@ -19,12 +19,8 @@ def run_command(command: str):
         sys.exit(result.returncode)
 
 def main():
-    # breakpoint()
-    # print("the cwd :"+os.getcwd())
     cmd = " ".join(sys.argv)
     argv_list = sys.argv
-    # cmd="/home/test/my_lib/my_paper/func_split/demo/custom_compiler/custom_compiler.py  -I. -I./lib  -Ilib -I./lib -Isrc -I./src    -O0 -c -o lib/acl-internal.o lib/acl-internal.c"
-    # argv_list=cmd.split()
 
     # Check if it's a compilation operation (-c parameter)
     if " -c " not in cmd:
@@ -47,9 +43,6 @@ def main():
                 output_file = argv_list[i + 1]
                 i += 2
 
-        # if argv_list[i] == "-o":
-        #     output_file = argv_list[i + 1]
-        #     i += 2
         elif argv_list[i].endswith(".c") or argv_list[i].endswith(".cc") or argv_list[i].endswith(".cpp") or argv_list[i].endswith(".cxx"):
             input_file = argv_list[i]
             i += 1
@@ -71,9 +64,6 @@ def main():
     temp_bc = os.path.splitext(input_file)[0] + ".bc"
     temp_opt_bc = os.path.splitext(input_file)[0] + ".optimized.bc"
 
-    # # Step 1: Compile source file to LLVM IR (.bc file)
-    # run_command(f"clang -S -c -emit-llvm -o {temp_bc} {input_file}")
-
     # Step 1: Compile source file to LLVM IR (.bc file)
     # Preserve all original arguments (like -I, -D, -O2, etc.)
     run_command(f"clang -c -emit-llvm -o {temp_bc} {' '.join(other_args)} {input_file}")
@@ -88,8 +78,8 @@ def main():
         run_command(f"clang -c {temp_opt_bc} -o {output_file}")
 
     # Clean up temporary files
-    # os.remove(temp_bc)
-    # os.remove(temp_opt_bc)
+    os.remove(temp_bc)
+    os.remove(temp_opt_bc)
 
 if __name__ == "__main__":
     main()
